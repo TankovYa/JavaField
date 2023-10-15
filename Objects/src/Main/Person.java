@@ -1,19 +1,37 @@
 package Main;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class Person {
-	public Person(String name, int number, List<String> role) {
+public class Person implements Cloneable {
+	public Person(String name, int number, ArrayList<String> role) {
 		this.name = name;
 		this.number = number;
-		this.role = role;
+		if(role!=null)
+			for (String string : role) {
+				this.role.add(string);
+			}
 	}
 	
 	public String name;
 	public int number;
-	public List<String> role;
+	public ArrayList<String> role= new ArrayList<>();
 	
+	public void addRole(String r) {
+		role.add(r);
+	}
+	
+	public void removeRole(String r) {
+		role.remove(r);
+	}
+	
+	public Object clone(){  
+	    try{  
+	        return super.clone();  
+	    }catch(CloneNotSupportedException e){ 
+	        return null; 
+	    }
+	}
 	
 	@Override
 	public int hashCode() {
@@ -44,10 +62,15 @@ public class Person {
 	public void setNumber(int number) {
 		this.number = number;
 	}
-	public List<String> getRole() {
+	public ArrayList<String> getRole() {
 		return role;
 	}
-	public void setRole(List<String> role) {
+	public void setRole(ArrayList<String> role) {
 		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		return "Person [name=" + name + ", number=" + number + ", role=" + role + "]";
 	}
 }
