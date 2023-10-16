@@ -34,6 +34,29 @@ public class Main {
 		System.out.print("\nUpdate personClone:\n\t"+p1.toString()+"\n\tClone "+person.toString());
 		p1.removeRole("admin");
 		System.out.print("\nUpdate person1:\n\t"+p1.toString()+"\n\tClone "+person.toString());
+		//Test Class
+		Pet pet;
+		String[] petStrings= {
+				"Main.Cat",
+				"Main.Dog",
+				"Main.Man"
+		};
+		for (String name : petStrings) {
+			try {
+				System.out.print("\n\nClass "+name);
+				Class<?> class1 = Class.forName(name);
+				System.out.print("\nCreate Pet");
+				pet=(Pet)class1.newInstance();
+				System.out.print("\nnewInstance: "+pet.getClass());
+				pet.voice();
+			} catch (ClassNotFoundException e) {
+				System.out.print("\nNotFoundClass "+name);
+			}catch (InstantiationException e) {
+				e.printStackTrace();
+			}catch (Throwable e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
