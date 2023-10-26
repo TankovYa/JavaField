@@ -1,9 +1,5 @@
 package Main;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
 
 	public static void main(String[] args) {
@@ -15,6 +11,10 @@ public class Main {
 		}
 		System.out.print("\n i1==i2:\n\t"+(i[0]==i[1]));
 		System.out.print("\n i3==i4:\n\t"+(i[2]==i[3]));
+		System.out.print("\ni3Cash= "+i[2].hashCode());
+		System.out.print("\ni4Cash= "+i[3].hashCode());
+		System.out.print("\n i1==i2:\n\t"+(i[0].equals(i[1])));
+		System.out.print("\n i3==i4:\n\t"+(i[2].equals(i[3])));
 	}
 
 }
