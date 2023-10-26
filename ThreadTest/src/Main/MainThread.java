@@ -6,7 +6,7 @@ public class MainThread {
 		Store store = new Store();
 		Producer producer =new Producer(store);
 		Consumer consumer =new Consumer(store);
-		//new Thread(consumer).start();
+		/*//new Thread(consumer).start();
 		//new Thread(producer).start();
 		Thread pThread = new Thread(producer);
 		Thread cThread = new Thread(consumer);
@@ -18,7 +18,15 @@ public class MainThread {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {}
 		System.out.println("Главный поток закончился");
-		System.exit(0);
+		System.exit(0);*/
+		for(int i=0;i<10;i++) {
+			new Thread(consumer).start();
+			//new Thread(producer).start();
+		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {}
+		System.out.println(store.items);
 	}
 
 }
