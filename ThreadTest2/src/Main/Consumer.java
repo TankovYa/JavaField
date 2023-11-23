@@ -5,13 +5,12 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Consumer implements Callable<String>{
+public class Consumer implements Runnable{
 	
 	static int CountC = 0;
 	static Random random = new Random();
-	static ReentrantLock locker = new ReentrantLock();
 	
-	Condition condition = locker.newCondition();
+	int number;
 	Store store;
 	String item;
 	Integer count;
@@ -24,6 +23,7 @@ public class Consumer implements Callable<String>{
 	
 	public Consumer(Store store) {
 		CountC++;
+		number = CountC;
 		String item = "A";
 		switch(random.nextInt(3)) {
 		case 0:
@@ -45,10 +45,18 @@ public class Consumer implements Callable<String>{
 	}
 
 	@Override
-	public String call() throws Exception {
-		String result = "Cosumer " + CountC +" получил " + store.getItem(item,count,condition);
+	public void run() {
+		String result = "Cosumer " + number +" заказал " + item + " " + count;
 		System.out.println(result);
-		return result;
+		result = "Cosumer " + number +"не получил";
+		try {
+			result = "Cosumer " + number +" получил " + store.getItem(item,count);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(result);
+		
 	}
 
 	public String getItem() {

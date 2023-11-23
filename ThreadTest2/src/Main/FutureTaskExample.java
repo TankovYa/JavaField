@@ -22,20 +22,25 @@ public class FutureTaskExample {
     	return isDone;
     }
     
-	public FutureTaskExample() {
+	public FutureTaskExample(){
 		futureTask = new FutureTask[THREAD_COUNT];
 		consumers = new Consumer[THREAD_COUNT];
-		executor = Executors.newFixedThreadPool(THREAD_COUNT);
+		executor = Executors.newCachedThreadPool();
 		
 		Store store = new Store();
 		for(int i=0;i<THREAD_COUNT;i++) {
 			consumers[i] = new Consumer(store);
-			System.out.println(consumers[i].count);
-			futureTask[i] = new FutureTask<String>(consumers[i]);
-			executor.submit(consumers[i]);
+			futureTask[i] = new FutureTask<String>(consumers[i], "Done");
+			executor.execute(consumers[i]);
 		}
-		
 		while(true) {
+			System.out.println("executor no shutdown");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(areTasksDone()) {
 				executor.shutdown();
 				System.out.println("executor shutdown");
