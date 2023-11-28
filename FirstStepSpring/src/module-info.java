@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author ярослав
+ *
+ */
+module FirstStepSpring {
+}
