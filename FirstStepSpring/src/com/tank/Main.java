@@ -1,17 +1,18 @@
 package com.tank;
 
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
 
 public class Main {
 
 	public static void main(String[] args) {
 		new Main();
-		
 	}
 	
 	public Main() {
 		try {
 			testBeanFactory();
+			testApplicationContext();
 		} catch (ReflectiveOperationException e) {
 			e.printStackTrace();
 		}
@@ -40,5 +41,12 @@ public class Main {
 
 		beanFactory.initializeBeans();
 		
+		beanFactory.close();
+		
+	}
+	
+	void testApplicationContext() throws ReflectiveOperationException{
+		ApplicationContext applicationContext = new ApplicationContext("com.tank");
+		applicationContext.close();
 	}
 }

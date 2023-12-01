@@ -5,10 +5,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Resource;
 import org.springframework.beans.factory.stereotype.Component;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
 
 
 @Component
-public class ProductService implements BeanFactoryAware,InitializingBean{
+public class ProductService implements BeanFactoryAware, InitializingBean, ApplicationListener<ContextClosedEvent>{
 	private String beanFactory;
 	
 	@Resource
@@ -45,5 +47,10 @@ public class ProductService implements BeanFactoryAware,InitializingBean{
 	@Override
 	public void afterPropertiesSet() {
 		System.out.println("AfterProperties initializing");
+	}
+
+	@Override
+	public void onApplicationEvent(ContextClosedEvent event) {
+		System.out.println(">> ContextClosed EVENT");
 	}
 }

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Resource;
@@ -28,6 +29,15 @@ import com.tank.Main;
 
 public class BeanFactory {
 	private Map<String, Object> singletons = new HashMap();
+	
+	public Map<String, Object> getSingletons() {
+		return singletons;
+	}
+
+	public void setSingletons(Map<String, Object> singletons) {
+		this.singletons = singletons;
+	}
+
 	private List<BeanPostProcessor> postProcessors = new ArrayList<>();
 	
 	public Object getBean(String beanName) {
@@ -126,7 +136,7 @@ public class BeanFactory {
 	public void initializeBeans() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		for(String name : singletons.keySet()) {
 			Object bean = singletons.get(name);
-			for(Method beanMethod : bean.getClass().getDeclaredMethods()) {
+			for(Method beanMethod : bean.getClass().getMethods()) {
 				if(beanMethod.isAnnotationPresent(PostConstruct.class)) {
 					beanMethod.invoke(bean);
 				}
@@ -147,5 +157,27 @@ public class BeanFactory {
 	
 	public void addPostProcessor(BeanPostProcessor postProcessor) {
 		postProcessors.add(postProcessor);
+	}
+	
+	public void close() {
+		for(Object bean : singletons.values()) {
+			
+			for(Method beanMethod : bean.getClass().getMethods()) {
+				
+				if(beanMethod.isAnnotationPresent(PreDestroy.class)) {
+					try {
+						beanMethod.invoke(bean);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			if (bean instanceof DisposableBean) {
+				((DisposableBean) bean).destroy();
+			}
+			
+		}
 	}
 }
