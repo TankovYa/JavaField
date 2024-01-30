@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import tacos.TacoOrder;
 
-public interface OrderRepository extends CrudRepository<TacoOrder, UUID>{
+public interface OrderRepository extends CrudRepository<TacoOrder, String>{
 	List<TacoOrder> findByDeliveryZip(String deliveryZip);
 	List<TacoOrder> readOrdersByDeliveryZipAndPlacedAtBetween(String deliveryZip, Date startDate, Date endDate);
 }
