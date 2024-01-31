@@ -30,3 +30,14 @@ create table if not exists Ingredient_Ref (
  foreign key (taco) references Taco(id),
  foreign key (ingredient) references Ingredient(id)
 );
+create table if not exists Users(
+	id identity PRIMARY KEY,
+	username varchar(50) not null,
+	password varchar(50) not null,
+	fullname varchar(50) not null,
+	street varchar(50) not null,
+	city varchar(50) not null,
+	state varchar(2) not null,
+	zip varchar(10) not null,
+	phoneNumber varchar(12) not null
+);
