@@ -3,12 +3,16 @@ package tacos.web;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
 import tacos.data.IngredientRepository;
+import tacos.data.UserRepository;
+import tacos.security.RegistrationForm;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
@@ -20,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer{
 	}
 	
 	@Bean
-	public CommandLineRunner dataLoader(IngredientRepository repo) {
+	public CommandLineRunner dataLoader(IngredientRepository repo,UserRepository userRepo, PasswordEncoder passwordEncoder) {
 		return args ->{
 			repo.save(new Ingredient("FLTO", "Flour Tortilla", Type.WRAP));
 			repo.save(new Ingredient("COTO", "Corn Tortilla", Type.WRAP));
@@ -32,6 +36,8 @@ public class WebConfig implements WebMvcConfigurer{
 			repo.save(new Ingredient("JACK", "Monterrey Jack", Type.CHEESE));
 			repo.save(new Ingredient("SLSA", "Salsa", Type.SAUCE));
 			repo.save(new Ingredient("SRCR", "Sour Cream", Type.SAUCE));
+			userRepo.save(new RegistrationForm("admin", "admin", "admin", "street", "moscow", "12", "111111", "123456789").toUser(passwordEncoder));
+			
 		};
 	}
 }

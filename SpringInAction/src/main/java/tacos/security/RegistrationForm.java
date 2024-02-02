@@ -2,10 +2,12 @@ package tacos.security;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import tacos.User;
 
 @Data
+@AllArgsConstructor
 public class RegistrationForm {
 
 	private String username;

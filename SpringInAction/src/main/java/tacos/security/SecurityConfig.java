@@ -2,6 +2,7 @@ package tacos.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +14,7 @@ import tacos.User;
 import tacos.data.UserRepository;
 
 @Configuration
-public class SecurityConfig {
+public class SecurityConfig{
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -39,7 +40,12 @@ public class SecurityConfig {
                         .requestMatchers("/", "/**").permitAll())
                 .formLogin(login -> login
                         .loginPage("/login")
-                        .defaultSuccessUrl("/design",true))
+                        .defaultSuccessUrl("/design", true))
+                .oauth2Login(login -> login
+                        .loginPage("/login"))
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/"))
                 .build();
 	}
+	
 }
