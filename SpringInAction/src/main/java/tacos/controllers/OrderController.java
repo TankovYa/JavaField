@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -27,7 +28,7 @@ import tacos.User;
 import tacos.data.OrderRepository;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/orders")
 @SessionAttributes("tacoOrder")
 public class OrderController {
@@ -57,51 +58,5 @@ public class OrderController {
 		sessionStatus.setComplete();
 		
 		return  "redirect:/";
-	}
-	
-	@PutMapping(path="/{orderId}", consumes="application/json")
-	public TacoOrder putOrder(@PathVariable("orderId") Long orderId, @RequestBody TacoOrder order) {
-		order.setId(orderId);
-		return orderRep.save(order);
-	}
-	
-	@PatchMapping(path="/{orderId}", consumes="application/json")
-	public TacoOrder patchOrder(@PathVariable("orderId") Long orderId, @RequestBody TacoOrder patch) {
-		TacoOrder order = orderRep.findById(orderId).get();
-		if (patch.getDeliveryName() != null) {
-			order.setDeliveryName(patch.getDeliveryName());
-		}
-		if (patch.getDeliveryStreet() != null) {
-			order.setDeliveryStreet(patch.getDeliveryStreet());
-		}
-		if (patch.getDeliveryCity() != null) {
-			order.setDeliveryCity(patch.getDeliveryCity());
-		}
-		if (patch.getDeliveryState() != null) {
-			order.setDeliveryState(patch.getDeliveryState());
-		}
-		if (patch.getDeliveryZip() != null) {
-			order.setDeliveryZip(patch.getDeliveryZip());
-		}
-		if (patch.getCcNumber() != null) {
-			order.setCcNumber(patch.getCcNumber());
-		}
-		if (patch.getCcExpiration() != null) {
-			order.setCcExpiration(patch.getCcExpiration());
-		}
-		if (patch.getCcCVV() != null) {
-			order.setCcCVV(patch.getCcCVV());
-		}
-		return orderRep.save(order);
-	}
-	
-	@DeleteMapping("/{orderId}")
-	public ResponseEntity<TacoOrder> deleteOrder(@PathVariable("orderId") Long orderId) {
-		try {
-			orderRep.deleteById(orderId);
-		} catch (EmptyResultDataAccessException e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}	
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

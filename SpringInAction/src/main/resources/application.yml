@@ -10,3 +10,6 @@ spring:
           clientId: senko
           clientSecret: topsecret
           scope: email, profile
+  data:
+    rest:
+      base-path: /data-api      
