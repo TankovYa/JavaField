@@ -12,4 +12,5 @@ spring:
           scope: email, profile
   data:
     rest:
-      base-path: /data-api      
+      base-path: /data-api     
+   

@@ -7,7 +7,8 @@ street varchar(50) not null,
 city varchar(50) not null,
 state varchar(2) not null,
 zip varchar(10) not null,
-phoneNumber varchar(12) not null
+phoneNumber varchar(12) not null,
+role varchar(12) not null
 );
 create table if not exists Taco_Order (
  id identity PRIMARY KEY,

@@ -1,7 +1,9 @@
 package tacos;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Table(name = "Users")
 public class User implements UserDetails{
-
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -38,12 +40,21 @@ public class User implements UserDetails{
 	private final String state;
 	private final String zip;
 	private final String phoneNumber;
+	private String role = "ROLE_USER";
 	
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+	public User(String username, String password, String role){
+		this.username=username;
+		this.password=password;
+		this.role=role;
+		
+		this.fullname="";
+		this.street="";
+		this.city="";
+		this.state="";
+		this.zip="";
+		this.phoneNumber="";
 	}
-
+	
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -62,6 +73,11 @@ public class User implements UserDetails{
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return Arrays.asList(new SimpleGrantedAuthority(role));
 	}
 
 }
